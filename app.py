@@ -6,12 +6,8 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def main():
-    return "Миссия Колонизация Марса"
-
-
 @app.route('/index/<title>')
-def index(title):
+def index(title="Начальная страница"):
     return render_template('base.html', title=title)
 
 
