@@ -1,6 +1,6 @@
 import os.path
 import os
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, render_template
 
 app = Flask(__name__)
 
@@ -10,9 +10,9 @@ def main():
     return "Миссия Колонизация Марса"
 
 
-@app.route("/index")
-def index():
-    return "И на Марсе будут яблони цвести!"
+@app.route('/index/<title>')
+def index(title):
+    return render_template('base.html', title=title)
 
 
 @app.route("/promotion_image")
