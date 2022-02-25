@@ -29,5 +29,20 @@ def list_prof(list_style):
     return render_template("list.html", css_href=css_href, type=list_style, profs=profs)
 
 
+@app.route("/answer")
+@app.route("/auto_answer")
+def questionnaire():
+    content = {
+        'surname': "Watny",
+        'name': "Mark",
+        'education': "выше среднего",
+        'profession': "штурман марсохода",
+        'sex': "male",
+        'motivation': "Всегда мечтал застрять на Марсе!",
+        'ready': True
+    }
+    return render_template("auto_answer.html", **content)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
