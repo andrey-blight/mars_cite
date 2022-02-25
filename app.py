@@ -22,9 +22,11 @@ def training(prof: str):
 
 @app.route("/list_prof/<list_style>")
 def list_prof(list_style):
-    if list_style not in {"ol", "ul"}:
-        css_href = url_for('static', filename="/css/center.css")
-        return render_template("error.html", css_href=css_href)
+    css_href = url_for('static', filename="/css/center.css")
+    profs = ["инженер-исследователь", "пилот", "строитель", "экзобиолог", "врач", "инжинер по терраформированию",
+             "климатолог", "специалист по радиационной защите", "астрогеолог", "гляциолог", "инженер жизнеобеспечения",
+             "метеороог", "оператор марсохода", "киберинженер", "штурман", "пилот дронов"]
+    return render_template("list.html", css_href=css_href, type=list_style, profs=profs)
 
 
 if __name__ == '__main__':
