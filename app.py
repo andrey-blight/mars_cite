@@ -11,6 +11,15 @@ def index(title="Начальная страница"):
     return render_template('base.html', title=title)
 
 
+@app.route("/training/<prof>")
+def training(prof: str):
+    css_href = url_for('static', filename="/css/training.css")
+    header, img = "Научные симуляторы", url_for('static', filename='images/spaceship_science.jpg')
+    if "инженер" in prof.lower() or "строитель" in prof.lower():
+        header, img = "Инженерные тренажеры", url_for('static', filename='images/spaceship_engineer.jpg')
+    return render_template('training.html', header=header, img_href=img, css_href=css_href)
+
+
 @app.route("/promotion_image")
 def promo():
     return f"""<html>
