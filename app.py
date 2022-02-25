@@ -13,11 +13,18 @@ def index(title="Начальная страница"):
 
 @app.route("/training/<prof>")
 def training(prof: str):
-    css_href = url_for('static', filename="/css/training.css")
+    css_href = url_for('static', filename="/css/center.css")
     header, img = "Научные симуляторы", url_for('static', filename='images/spaceship_science.jpg')
     if "инженер" in prof.lower() or "строитель" in prof.lower():
         header, img = "Инженерные тренажеры", url_for('static', filename='images/spaceship_engineer.jpg')
     return render_template('training.html', header=header, img_href=img, css_href=css_href)
+
+
+@app.route("/list_prof/<list_style>")
+def list_prof(list_style):
+    if list_style not in {"ol", "ul"}:
+        css_href = url_for('static', filename="/css/center.css")
+        return render_template("error.html", css_href=css_href)
 
 
 if __name__ == '__main__':
