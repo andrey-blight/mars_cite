@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ css_href }}"/>
+{% endblock %}
+{% block content %}
+    <form action="" method="POST" novalidate>
+        <div>
+            {{ form.csrf_token }}
+        </div>
+        <img src="../static/images/mars_logo.png" alt="Лого Марса" class="left_photo">
+        <h1>Аварийный доступ</h1>
+        {% for field in form if field.name != 'csrf_token' and field.name != 'submit' %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label() }}</label>
+                {{ field( class="form-control") }}
+                {% for error in field.error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {{ form.submit( type="submit",class="btn btn-primary") }}
+    </form>
+{% endblock %}

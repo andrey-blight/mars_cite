@@ -1,8 +1,12 @@
 import os.path
 import os
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, redirect
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 @app.route("/")
@@ -42,6 +46,23 @@ def questionnaire():
         'ready': True
     }
     return render_template("auto_answer.html", **content)
+
+
+class LoginForm(FlaskForm):
+    id_astro = StringField("Id астроонавта", validators=[DataRequired()])
+    password_astro = PasswordField("Пароль астронавта", validators=[DataRequired()])
+    id_cap = StringField("Id капитана", validators=[DataRequired()])
+    password_cap = PasswordField("Пароль капитана", validators=[DataRequired()])
+    submit = SubmitField("Доступ")
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    css_href = url_for('static', filename="/css/left_photo.css")
+    if form.validate_on_submit():
+        return redirect('/')
+    return render_template('login.html', title="Аварийный доступ", form=form, css_href=css_href)
 
 
 if __name__ == '__main__':
