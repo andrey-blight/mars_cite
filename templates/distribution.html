@@ -4,7 +4,8 @@
 {% endblock %}
 {% block content %}
     <h2 class="center">Размещение по каютам</h2>
+    {% set place="Каюта №" %}
     {% for el in crew %}
-        <p class="center">{{ el }} - Каюта №{{ loop.index }}{% if loop.first %} - капитан корабля{% endif %}</p>
+        <p class="center">{{ el }} - {{ place }}{{ loop.index }}{% if loop.first %} - капитан корабля{% endif %}</p>
     {% endfor %}
 {% endblock %}
