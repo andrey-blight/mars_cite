@@ -72,5 +72,21 @@ def distribution():
     return render_template("distribution.html", css_href=css_href, crew=crew)
 
 
+@app.route("/table/<sex>/<int:age>")
+def table(sex, age):
+    if sex not in ["male", "female"] or not (0 <= age <= 100):
+        return "ERROR: Неверные параметры"
+    if sex == "male":
+        color = (0, 50 + (50 - age), 50)
+    else:
+        color = (240, 50 + (50 - age), 50)
+    color = f"hsl({color[0]},{color[1]}%,{color[2]}%)"
+    if age < 21:
+        photo_url = url_for('static', filename="/images/small_alien.jpg")
+    else:
+        photo_url = url_for('static', filename="/images/big_alien.jpg")
+    return render_template("table.html", color=color, photo_url=photo_url)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
