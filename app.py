@@ -1,10 +1,11 @@
 import os.path
 import os
-from flask import Flask, url_for, request, render_template, redirect
+from flask import Flask, url_for, render_template, redirect
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -93,16 +94,24 @@ class FileForm(FlaskForm):
     photo = FileField("Добавит картинку", validators=[FileRequired()])
     submit = SubmitField("Отправить")
 
+    def __init__(self):
+        self.images = [url_for('static', filename=f"/images/mars{i}.jpg") for i in range(1, 3 + 1)]
+        self.images.append(url_for('static', filename=f"/images/mars{2}.jpg"))
+
+    def get_img(self):
+        return self.images
+
 
 @app.route('/gallery', methods=["GET", "POST"])
-def login():
-    form = LoginForm()
+def gallery():
+    form = FileForm()
     if form.validate_on_submit():
         f = form.photo.data
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.instance_path, 'static/images', filename))
         return redirect('/gallery')
-    return render_template()
+    images_list = form.get_img()
+    return render_template("gallery.html", images=images_list, r=range(len(images_list)))
 
 
 if __name__ == '__main__':

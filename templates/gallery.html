@@ -1,4 +1,34 @@
 {% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="/css/center.css") }}"/>
+{% endblock %}
 {% block content %}
-    <h2 class="center"></h2>
+<h2 class="center">Пейзажи Марса</h2>
+<div id="carouselExampleIndicators" class="carousel slide center" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for i in r %}
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{i}}" {% if loop.first %}
+                class="active" {% endif %}
+                aria-current="true" aria-label="Slide {{i+1}}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for image in images %}
+        <div class="carousel-item{% if loop.first %} active{% endif %}">
+            <img src="{{ image }}" class="d-block w-100" alt="Фото марса">
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущий</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следующий</span>
+    </button>
+</div>
+<p>djlfldkssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssfmkskfmk</p>
 {% endblock %}
