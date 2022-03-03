@@ -2,6 +2,7 @@ import os.path
 import os
 from flask import Flask, url_for, request, render_template, redirect
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -86,6 +87,22 @@ def table(sex, age):
     else:
         photo_url = url_for('static', filename="/images/big_alien.jpg")
     return render_template("table.html", color=color, photo_url=photo_url)
+
+
+class FileForm(FlaskForm):
+    photo = FileField("Добавит картинку", validators=[FileRequired()])
+    submit = SubmitField("Отправить")
+
+
+@app.route('/gallery', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.instance_path, 'static/images', filename))
+        return redirect('/gallery')
+    return render_template()
 
 
 if __name__ == '__main__':
