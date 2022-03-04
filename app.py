@@ -1,6 +1,6 @@
 import os.path
 import os
-from flask import Flask, url_for, render_template, redirect
+from flask import Flask, url_for, render_template, redirect, request
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, PasswordField, SubmitField
@@ -94,13 +94,6 @@ class FileForm(FlaskForm):
     photo = FileField("Добавит картинку", validators=[FileRequired()])
     submit = SubmitField("Отправить")
 
-    def __init__(self):
-        self.images = [url_for('static', filename=f"/images/mars{i}.jpg") for i in range(1, 3 + 1)]
-        self.images.append(url_for('static', filename=f"/images/mars{2}.jpg"))
-
-    def get_img(self):
-        return self.images
-
 
 @app.route('/gallery', methods=["GET", "POST"])
 def gallery():
@@ -108,10 +101,11 @@ def gallery():
     if form.validate_on_submit():
         f = form.photo.data
         filename = secure_filename(f.filename)
-        f.save(os.path.join(app.instance_path, 'static/images', filename))
+        print(filename)
+        f.save(os.path.join(r'static/carousel_images', filename))
         return redirect('/gallery')
-    images_list = form.get_img()
-    return render_template("gallery.html", images=images_list, r=range(len(images_list)))
+    images_list = [url_for('static', filename=f"/carousel_images/{el}") for el in os.listdir("static/carousel_images")]
+    return render_template("gallery.html", images=images_list, r=range(len(images_list)), form=form)
 
 
 if __name__ == '__main__':
