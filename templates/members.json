@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Ридли",
+    "surname": "Скотт",
+    "prof": [
+      "строитель",
+      "пилот"
+    ],
+    "img_href": "ridli_scott.jpg"
+  },
+  {
+    "name": "Энди",
+    "surname": "Уир",
+    "prof": [
+      "астрогеолог",
+      "специалист по радиационной защите"
+    ],
+    "img_href": "endi_uir.png"
+  },
+  {
+    "name": "Марк",
+    "surname": "Уотни",
+    "prof": [
+      "климатолог",
+      "врач",
+      "экзобиолог"
+    ],
+    "img_href": "mark_uotni.jpg"
+  },
+  {
+    "name": "Венката",
+    "surname": "Капур",
+    "prof": [
+      "метеоролог"
+    ],
+    "img_href": "venkata_kapur.jpg"
+  },
+    {
+    "name": "Тедди",
+    "surname": "Сандерс",
+    "prof": [
+      "гляциолог",
+      "штурман"
+    ],
+    "img_href": "teddi_sandres.jpg"
+  },
+      {
+    "name": "Шон",
+    "surname": "Бин",
+    "prof": [
+      "киберинженер",
+      "пилот дронов"
+    ],
+    "img_href": "teddi_sandres.jpg"
+  }
+]

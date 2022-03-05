@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="/css/center.css") }}"/>
+{% endblock %}
+{% block content %}
+    {% set el=list|random() %}
+    <h2 class="center">{{ el['name'] }} {{ el["surname"] }}</h2>
+    <img src="{{ url_for('static',filename="members_images/{}".format(el['img_href'])) }}" alt="Фото члена экипажа"
+         class="center-img">
+    <p class="center">
+        {% for prof in el["prof"] %}
+            {{ prof }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+{% endblock %}

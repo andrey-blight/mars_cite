@@ -1,5 +1,6 @@
 import os.path
 import os
+import json
 from flask import Flask, url_for, render_template, redirect, request
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -106,6 +107,14 @@ def gallery():
         return redirect('/gallery')
     images_list = [url_for('static', filename=f"/carousel_images/{el}") for el in os.listdir("static/carousel_images")]
     return render_template("gallery.html", images=images_list, r=range(len(images_list)), form=form)
+
+
+@app.route("/member")
+def member():
+    with open('templates/members.json', encoding='utf-8') as file:
+        data = json.load(file)
+    print(data)
+    return render_template("member.html", list=data)
 
 
 if __name__ == '__main__':
