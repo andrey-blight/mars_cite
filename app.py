@@ -1,6 +1,9 @@
+from data.db_session import global_init, create_session
+
 import os.path
 import os
 import json
+
 from flask import Flask, url_for, render_template, redirect, request
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -8,14 +11,15 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 
+global_init("db/mars_explorer.db")
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 @app.route("/")
-@app.route('/index/<title>')
-def index(title="Начальная страница"):
-    return render_template('base.html', title=title)
+def index():
+    db_sess = create_session()
+    return render_template("index.html")
 
 
 @app.route("/training/<prof>")
@@ -118,4 +122,4 @@ def member():
 
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8080, host='localhost')
