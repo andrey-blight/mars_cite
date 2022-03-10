@@ -11,7 +11,8 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 
-global_init("db/mars_explorer.db")
+global_init(r"db/mars_explorer.db")
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
