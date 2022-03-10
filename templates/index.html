@@ -1,1 +1,42 @@
-hello world
+{% extends 'base.html' %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="/css/center.css") }}"/>
+{% endblock %}
+{% block content %}
+    <h2 class="center">Works log</h2>
+    {% for job in jobs %}
+        <div class="table-responsive center indent">
+            <h3>Action # {{ loop.index }}</h3>
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Title of action</th>
+                    <th>Team leader</th>
+                    <th>Duration</th>
+                    <th>List of collaborators</th>
+                    <th>Is finished</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {{ job[1].job }}
+                    </th>
+                    <th>
+                        {{ job[0].name }} {{ job[0].surname }}
+                    </th>
+                    <th>
+                        {{ job[1].work_size }} hours
+                    </th>
+                    <th>
+                        {{ job[1].collaborators }}
+                    </th>
+                    <th>
+                        is{% if not job[1].is_finished %} not{% endif %} finished
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -22,7 +22,8 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 @app.route("/")
 def index():
     db_sess = create_session()
-    return render_template("index.html")
+    jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job) for job in db_sess.query(Jobs).all()]
+    return render_template("index.html", jobs=jobs)
 
 
 @app.route("/training/<prof>")
