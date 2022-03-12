@@ -1,17 +1,14 @@
 from data.db_session import global_init, create_session
 from data.users import User
 from data.jobs import Jobs
+from data.forms import *
 
 import os.path
 import os
 import json
 
 from flask import Flask, url_for, render_template, redirect, request
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, PasswordField, SubmitField, EmailField, IntegerField
-from wtforms.validators import DataRequired
-from werkzeug.utils import secure_filename
+
 
 global_init(r"db/mars_explorer.db")
 app = Flask(__name__)
@@ -58,14 +55,6 @@ def questionnaire():
     return render_template("auto_answer.html", **content)
 
 
-class LoginForm(FlaskForm):
-    id_astro = StringField("Id астроонавта", validators=[DataRequired()])
-    password_astro = PasswordField("Пароль астронавта", validators=[DataRequired()])
-    id_cap = StringField("Id капитана", validators=[DataRequired()])
-    password_cap = PasswordField("Пароль капитана", validators=[DataRequired()])
-    submit = SubmitField("Доступ")
-
-
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -98,11 +87,6 @@ def table(sex, age):
     return render_template("table.html", color=color, photo_url=photo_url)
 
 
-class FileForm(FlaskForm):
-    photo = FileField("Добавит картинку", validators=[FileRequired()])
-    submit = SubmitField("Отправить")
-
-
 @app.route('/gallery', methods=["GET", "POST"])
 def gallery():
     form = FileForm()
@@ -122,19 +106,6 @@ def member():
         data = json.load(file)
     print(data)
     return render_template("member.html", list=data)
-
-
-class RegisterForm(FlaskForm):
-    email = EmailField('Login / email', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password_again = PasswordField('Repeat password', validators=[DataRequired()])
-    surname = StringField('Surname', validators=[DataRequired()])
-    name = StringField('Name', validators=[DataRequired()])
-    age = IntegerField('Age', validators=[DataRequired()])
-    position = StringField('Position', validators=[DataRequired()])
-    speciality = StringField('Speciality', validators=[DataRequired()])
-    address = StringField('Address', validators=[DataRequired()])
-    submit = SubmitField('Войти')
 
 
 @app.route('/register', methods=['GET', 'POST'])
