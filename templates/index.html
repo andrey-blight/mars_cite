@@ -4,6 +4,9 @@
 {% endblock %}
 {% block content %}
     <h2 class="center">Works log</h2>
+    {% if current_user.is_authenticated %}
+        <a href="/jobs" class="btn btn-secondary">Add job</a>
+    {% endif %}
     {% for job in jobs %}
         <div class="table-responsive center indent">
             <h3>Action # {{ loop.index }}</h3>

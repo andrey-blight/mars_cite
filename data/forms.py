@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, PasswordField, SubmitField, EmailField, IntegerField,BooleanField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, IntegerField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
 
@@ -18,14 +18,6 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class LoginForm(FlaskForm):
-    id_astro = StringField("Id астроонавта", validators=[DataRequired()])
-    password_astro = PasswordField("Пароль астронавта", validators=[DataRequired()])
-    id_cap = StringField("Id капитана", validators=[DataRequired()])
-    password_cap = PasswordField("Пароль капитана", validators=[DataRequired()])
-    submit = SubmitField("Доступ")
-
-
 class FileForm(FlaskForm):
     photo = FileField("Добавит картинку", validators=[FileRequired()])
     submit = SubmitField("Отправить")
@@ -36,3 +28,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
+
+
+class JobsForm(FlaskForm):
+    job = StringField('Job', validators=[DataRequired()])
+    work_size = IntegerField('Work size', validators=[DataRequired()])
+    collaborators = StringField('Collaborators', validators=[DataRequired()])
+    is_finished = BooleanField("Is finished")
+    submit = SubmitField('Submit')

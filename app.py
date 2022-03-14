@@ -8,7 +8,7 @@ import os
 import json
 
 from flask import Flask, url_for, render_template, redirect, request, make_response, session
-from flask_login import LoginManager, login_manager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_manager, login_user, login_required, logout_user, current_user
 
 global_init(r"db/mars_explorer.db")
 app = Flask(__name__)
@@ -156,6 +156,20 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/jobs', methods=['GET', 'POST'])
+def jobs():
+    form = JobsForm()
+    if form.validate_on_submit():
+        db_sess = create_session()
+        job = Jobs(team_leader=current_user.id, job=form.job.data, work_size=form.work_size.data,
+                   collaborators=form.collaborators.data,
+                   is_finished=form.is_finished.data)
+        db_sess.add(job)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('jobs.html', title='Добавление работы', form=form)
 
 
 if __name__ == '__main__':
