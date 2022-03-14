@@ -159,6 +159,7 @@ def login():
 
 
 @app.route('/jobs', methods=['GET', 'POST'])
+@login_required
 def jobs():
     form = JobsForm()
     if form.validate_on_submit():
