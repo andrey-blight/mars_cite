@@ -28,7 +28,6 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    print(current_user.id)
     db_sess = create_session()
     jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job) for job in db_sess.query(Jobs).all()]
     return render_template("index.html", jobs=jobs)
@@ -109,7 +108,7 @@ def edit_news(id):
             abort(404)
     if form.validate_on_submit():
         db_sess = create_session()
-        job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user.id).first()
+        job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader.in_([1, current_user.id])).first()
         if job:
             job.job = form.job.data
             job.work_size = form.work_size.data
@@ -126,7 +125,7 @@ def edit_news(id):
 @login_required
 def news_delete(id):
     db_sess = create_session()
-    news = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user.id).first()
+    news = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader.in_([1, current_user.id])).first()
     if news:
         db_sess.delete(news)
         db_sess.commit()

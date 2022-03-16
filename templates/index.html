@@ -9,7 +9,7 @@
     {% endif %}
     {% for job in jobs %}
         <div class="table-responsive center indent">
-            {% if current_user.is_authenticated and current_user.id == job[1].team_leader %}
+            {% if current_user.is_authenticated and current_user.id in [1, job[1].team_leader] %}
                 <div>
                     <a href="/jobs/{{ job[1].id }}" class="btn btn-warning">
                         Изменить
