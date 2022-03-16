@@ -3,7 +3,7 @@ from data.users import User
 from data.jobs import Jobs
 from data.forms import *
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 global_init(r"db/mars_explorer.db")
@@ -28,6 +28,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
+    print(current_user.id)
     db_sess = create_session()
     jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job) for job in db_sess.query(Jobs).all()]
     return render_template("index.html", jobs=jobs)
@@ -90,6 +91,48 @@ def jobs():
         db_sess.commit()
         return redirect('/')
     return render_template('jobs.html', title='Добавление работы', form=form)
+
+
+@app.route('/jobs/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_news(id):
+    form = JobsForm()
+    if request.method == "GET":
+        db_sess = create_session()
+        job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user.id).first()
+        if job:
+            form.job.data = job.job
+            form.work_size.data = job.work_size
+            form.collaborators.data = job.collaborators
+            form.is_finished.data = job.is_finished
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        db_sess = create_session()
+        job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user.id).first()
+        if job:
+            job.job = form.job.data
+            job.work_size = form.work_size.data
+            job.collaborators = form.collaborators.data
+            job.is_finished = form.is_finished.data
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('jobs.html', title='Редактирование новости', form=form)
+
+
+@app.route('/jobs_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def news_delete(id):
+    db_sess = create_session()
+    news = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user.id).first()
+    if news:
+        db_sess.delete(news)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 if __name__ == '__main__':

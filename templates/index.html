@@ -9,6 +9,16 @@
     {% endif %}
     {% for job in jobs %}
         <div class="table-responsive center indent">
+            {% if current_user.is_authenticated and current_user.id == job[1].team_leader %}
+                <div>
+                    <a href="/jobs/{{ job[1].id }}" class="btn btn-warning">
+                        Изменить
+                    </a>
+                    <a href="/jobs_delete/{{ job[1].id }}" class="btn btn-danger">
+                        Удалить
+                    </a>
+                </div>
+            {% endif %}
             <h3>Action # {{ loop.index }}</h3>
             <table class="table align-middle">
                 <thead>
