@@ -39,7 +39,7 @@ def departments():
     db_sess = create_session()
     departs = [(db_sess.query(User).filter(User.id == depart.chief).first(), depart) for depart in
                db_sess.query(Departments).all()]
-    return render_template("depart.html", jobs=jobs)
+    return render_template("depart.html", departs=departs)
 
 
 @app.route('/register', methods=['GET', 'POST'])
