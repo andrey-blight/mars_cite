@@ -1,6 +1,7 @@
 from data.db_session import global_init, create_session
 from data.users import User
 from data.jobs import Jobs
+from data.departments import Departments
 from data.forms import *
 
 from flask import Flask, render_template, redirect, request
@@ -31,6 +32,14 @@ def index():
     db_sess = create_session()
     jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job) for job in db_sess.query(Jobs).all()]
     return render_template("index.html", jobs=jobs)
+
+
+@app.route("/departments")
+def departments():
+    db_sess = create_session()
+    departs = [(db_sess.query(User).filter(User.id == depart.chief).first(), depart) for depart in
+               db_sess.query(Departments).all()]
+    return render_template("depart.html", jobs=jobs)
 
 
 @app.route('/register', methods=['GET', 'POST'])
