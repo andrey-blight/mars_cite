@@ -3,6 +3,7 @@ from data.users import User
 from data.jobs import Jobs
 from data.departments import Departments
 from data.forms import *
+from data.category import Category
 
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -201,4 +202,8 @@ def depart_delete(id):
 
 
 if __name__ == '__main__':
+    db_sess = create_session()
+    job = db_sess.query(Jobs).filter(Jobs.id == 3).first()
+    d = job.categories[0].name
+    print(d)
     app.run(port=8080, host='localhost')
