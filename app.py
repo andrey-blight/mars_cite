@@ -6,7 +6,7 @@ from data.forms import *
 from data.category import Category
 from data import jobs_api
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 global_init(r"db/mars_explorer.db")
@@ -15,6 +15,11 @@ app.register_blueprint(jobs_api.blueprint)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.route('/logout')
