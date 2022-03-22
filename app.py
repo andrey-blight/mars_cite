@@ -31,7 +31,8 @@ def load_user(user_id):
 @app.route("/")
 def index():
     db_sess = create_session()
-    jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job) for job in db_sess.query(Jobs).all()]
+    jobs = [(db_sess.query(User).filter(User.id == job.team_leader).first(), job, job.categories[0].name) for job in
+            db_sess.query(Jobs).all()]
     return render_template("index.html", jobs=jobs)
 
 
@@ -202,8 +203,4 @@ def depart_delete(id):
 
 
 if __name__ == '__main__':
-    db_sess = create_session()
-    job = db_sess.query(Jobs).filter(Jobs.id == 3).first()
-    d = job.categories[0].name
-    print(d)
     app.run(port=8080, host='localhost')
