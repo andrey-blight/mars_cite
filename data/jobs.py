@@ -1,6 +1,9 @@
+from .db_session import SqlAlchemyBase
+from .category import association_table
+
 import datetime
 import sqlalchemy
-from .db_session import SqlAlchemyBase
+from sqlalchemy import orm
 
 
 class Jobs(SqlAlchemyBase):
@@ -13,3 +16,5 @@ class Jobs(SqlAlchemyBase):
     start_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     end_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
+    user = orm.relation('User')
+    categories = orm.relation("Category", secondary=association_table, backref="jobs")
