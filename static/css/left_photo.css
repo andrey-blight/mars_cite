@@ -1,9 +1,0 @@
-.photo {
-    float: left;
-    background-image: url('../images/mars_logo.png');
-    width: 150px;
-    height: 50px;
-    background-position: center;
-    -webkit-background-size: cover;
-    background-size: cover;
-}

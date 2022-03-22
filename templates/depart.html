@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="/css/center.css") }}"/>
+{% endblock %}
+{% block content %}
+    <h2 class="center">List of Departments</h2>
+    {% if current_user.is_authenticated %}
+        <a href="/" class="btn btn-secondary">Back to Jobs</a>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <a href="/add_department" class="btn btn-secondary">Add a Department</a>
+    {% endif %}
+    {% for depart in departs %}
+        <div class="table-responsive center indent">
+            {% if current_user.is_authenticated and current_user.id in [1, depart[1].chief] %}
+                <div>
+                    <a href="/depart/{{ depart[1].id }}" class="btn btn-warning">
+                        Изменить
+                    </a>
+                    <a href="/depart_delete/{{ depart[1].id }}" class="btn btn-danger">
+                        Удалить
+                    </a>
+                </div>
+            {% endif %}
+            <h3>Department # {{ loop.index }}</h3>
+            <table class="table align-middle">
+                <thead>
+                <tr>
+                    <th>Title of department</th>
+                    <th>Chief</th>
+                    <th>Members</th>
+                    <th>Department email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        {{ depart[1].title }}
+                    </th>
+                    <th>
+                        {{ depart[0].name }} {{ depart[0].surname }}
+                    </th>
+                    <th>
+                        {{ depart[1].members }}
+                    </th>
+                    <th>
+                        {{ depart[1].department_email }}
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}
