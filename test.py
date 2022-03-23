@@ -36,5 +36,11 @@ def create_test():
     print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
 
 
+def delete_test():
+    print(delete('http://localhost:8080/api/jobs/100').json())  # ошибка индекса
+    print(delete('http://localhost:8080/api/jobs/1').json())  # Корректный запрос
+    print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
+
+
 if __name__ == '__main__':
-    create_test()
+    delete_test()
