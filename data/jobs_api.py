@@ -5,7 +5,7 @@ from . import db_session
 from .jobs import Jobs
 
 blueprint = flask.Blueprint(
-    'news_api',
+    'jobs_api',
     __name__,
     template_folder='templates'
 )
