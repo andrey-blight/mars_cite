@@ -25,7 +25,7 @@ def create_test():
                      'job': 'Title',
                      'work_size': 1,
                      'collaborators': "1,2,3,4,5",
-                     'is_finished': False}).json())  # Ошибка id Корректный запрос
+                     'is_finished': False}).json())  # Ошибка id
     print(post('http://localhost:8080/api/jobs',
                json={'id': 5,
                      'team_leader': 1,
@@ -42,5 +42,19 @@ def delete_test():
     print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
 
 
+def change_test():
+    print(put('http://localhost:8080/api/jobs/100').json())  # ошибка индекса
+    print(put('http://localhost:8080/api/jobs/1').json())  # Пустой запрос
+    print(put('http://localhost:8080/api/jobs/1', json={'job': 'Заголовок'}).json())  # Некоректный запрос
+    print(put('http://localhost:8080/api/jobs/1',
+              json={'id': 1,
+                    'team_leader': 1,
+                    'job': 'Title',
+                    'work_size': 1,
+                    'collaborators': "1,2,3,4,5",
+                    'is_finished': False}).json())  # Корректный запрос
+    print(get('http://localhost:8080/api/jobs/1').json())  # Получение всех работ
+
+
 if __name__ == '__main__':
-    delete_test()
+    change_test()
