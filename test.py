@@ -33,6 +33,7 @@ def create_test():
                      'work_size': 1,
                      'collaborators': "1,2,3,4,5",
                      'is_finished': False}).json())  # Корректный запрос
+    print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
 
 
 if __name__ == '__main__':
