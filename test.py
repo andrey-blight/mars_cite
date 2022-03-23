@@ -20,11 +20,19 @@ def create_test():
     print(post('http://localhost:8080/api/jobs', json={'job': 'Заголовок'}).json())  # Некоректный запрос
 
     print(post('http://localhost:8080/api/jobs',
-               json={'team_leader': 1,
+               json={'id': 1,
+                     'team_leader': 1,
                      'job': 'Title',
                      'work_size': 1,
                      'collaborators': "1,2,3,4,5",
-                     'is_finished': False}).json()) # Корректный запрос
+                     'is_finished': False}).json())  # Ошибка id Корректный запрос
+    print(post('http://localhost:8080/api/jobs',
+               json={'id': 5,
+                     'team_leader': 1,
+                     'job': 'Title',
+                     'work_size': 1,
+                     'collaborators': "1,2,3,4,5",
+                     'is_finished': False}).json())  # Корректный запрос
 
 
 if __name__ == '__main__':
