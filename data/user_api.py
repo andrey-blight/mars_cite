@@ -1,5 +1,8 @@
+import sys
+
 import flask
-from flask import jsonify, request
+import requests
+from flask import jsonify, request, render_template, url_for
 
 from . import db_session
 from .users import User
@@ -99,3 +102,33 @@ def change_job(user_id):
     user.email = request.json['email']
     db_sess.commit()
     return jsonify({'success': 'OK'})
+
+
+@blueprint.route('/api/users_show/<int:user_id>')
+def user_show(user_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).get(user_id)
+    if not user:
+        return jsonify({'error': 'Not found'})
+    toponym_to_find = user.city_from
+    geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
+    geocoder_params = {
+        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+        "geocode": toponym_to_find,
+        "format": "json"}
+    json_response = requests.get(geocoder_api_server, params=geocoder_params).json()
+    toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+    toponym_coodrinates = toponym["Point"]["pos"]
+    toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
+    map_params = {
+        "ll": ",".join([toponym_longitude, toponym_lattitude]),
+        "spn": '0.1,0.1',
+        "l": "sat",
+    }
+    map_api_server = "http://static-maps.yandex.ru/1.x/"
+    response = requests.get(map_api_server, params=map_params)
+    map_file = f"static/images/{user.id}.png"
+    with open(map_file, "wb") as file:
+        file.write(response.content)
+    return render_template('user_show.html', title='user', user=user,
+                           url=url_for('static', filename=f"/images/{map_file.split('/')[-1]}"))
