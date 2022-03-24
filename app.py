@@ -6,7 +6,7 @@ from data.forms import *
 from data.category import Category
 from data import jobs_api, user_api
 
-from flask import Flask, render_template, redirect, request, make_response, jsonify
+from flask import Flask, render_template, redirect, request, make_response, jsonify, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 global_init(r"db/mars_explorer.db")
