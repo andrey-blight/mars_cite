@@ -4,14 +4,15 @@ from data.jobs import Jobs
 from data.departments import Departments
 from data.forms import *
 from data.category import Category
-from data import jobs_api
+from data import jobs_api, user_api
 
-from flask import Flask, render_template, redirect, request, make_response, jsonify
+from flask import Flask, render_template, redirect, request, make_response, jsonify, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 global_init(r"db/mars_explorer.db")
 app = Flask(__name__)
 app.register_blueprint(jobs_api.blueprint)
+app.register_blueprint(user_api.blueprint)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
