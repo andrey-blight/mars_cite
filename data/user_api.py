@@ -18,8 +18,10 @@ def get_users():
     return jsonify(
         {
             'users':
-                [item.to_dict(only=('surname', 'name', 'age', 'position', 'speciality', 'address', 'email')) for item in
-                 users]
+                [item.to_dict(
+                    only=('surname', 'name', 'age', 'position', 'speciality', 'address', 'email', 'city_from')) for item
+                    in
+                    users]
         }
     )
 
@@ -28,7 +30,7 @@ def get_users():
 def get_one_user(user_id):
     db_sess = db_session.create_session()
     user = db_sess.query(User).get(user_id)
-    if not jobs:
+    if not user:
         return jsonify({'error': 'Not found'})
     return jsonify(
         {
@@ -42,13 +44,14 @@ def create_user():
     if not request.json:
         return jsonify({'error': 'Empty request'})
     elif not all(key in request.json for key in
-                 ['id', 'surname', 'name', 'age', 'position', 'speciality', 'address', 'email']):
+                 ['city_from', 'id', 'surname', 'name', 'age', 'position', 'speciality', 'address', 'email']):
         return jsonify({'error': 'Bad request'})
     db_sess = db_session.create_session()
     if db_sess.query(User).get(request.json['id']):
         return jsonify({'error': 'Id already exists'})
     user = User(
         id=request.json['id'],
+        city_from=request['city_from'],
         surname=request.json['surname'],
         name=request.json['name'],
         age=request.json['age'],
@@ -83,9 +86,10 @@ def change_job(user_id):
     if not request.json:
         return jsonify({'error': 'Empty request'})
     elif not all(key in request.json for key in
-                 ['id', 'surname', 'name', 'age', 'position', 'speciality', 'address', 'email']):
+                 ['city_from', 'id', 'surname', 'name', 'age', 'position', 'speciality', 'address', 'email']):
         return jsonify({'error': 'Bad request'})
     user.id = request.json['id']
+    user.city_from = request.json['city_from']
     user.surname = request.json['surname']
     user.name = request.json['name']
     user.age = request.json['age']
