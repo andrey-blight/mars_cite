@@ -28,7 +28,7 @@ def get_users():
 def get_one_user(user_id):
     db_sess = db_session.create_session()
     user = db_sess.query(User).get(user_id)
-    if not jobs:
+    if not user:
         return jsonify({'error': 'Not found'})
     return jsonify(
         {

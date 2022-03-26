@@ -8,9 +8,11 @@ from data import jobs_api, user_api
 
 from flask import Flask, render_template, redirect, request, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_restful import Api
 
 global_init(r"db/mars_explorer.db")
 app = Flask(__name__)
+api = Api(app)
 app.register_blueprint(jobs_api.blueprint)
 app.register_blueprint(user_api.blueprint)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
