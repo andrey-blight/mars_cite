@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="/css/center.css") }}"/>
+{% endblock %}
+{% block content %}
+    <h2 class="center">Nostalgy</h2>
+    <h2 class="center">{{ user.surname }} {{ user.name }}</h2>
+    <p class="center">Hometown {{ user.city_from }}</p>
+    <img src="{{ url }}" alt="Hometown photos">
+{% endblock %}
