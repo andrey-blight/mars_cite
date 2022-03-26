@@ -4,7 +4,7 @@ from data.jobs import Jobs
 from data.departments import Departments
 from data.forms import *
 from data.category import Category
-from data import jobs_api, user_api
+from data import jobs_api
 
 from flask import Flask, render_template, redirect, request, make_response, jsonify, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -13,16 +13,11 @@ from flask_restful import Api
 global_init(r"db/mars_explorer.db")
 app = Flask(__name__)
 api = Api(app)
-app.register_blueprint(jobs_api.blueprint)
-app.register_blueprint(user_api.blueprint)
+api.add_resource(news_resources.NewsListResource, '/api/v2/users')
+api.add_resource(news_resources.NewsResource, '/api/v2/users/<int:user_id>')
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-@app.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.route('/logout')

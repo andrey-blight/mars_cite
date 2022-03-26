@@ -45,6 +45,30 @@ class UsersResource(Resource):
         db_sess.commit()
         return jsonify({'success': 'OK'})
 
+    def delete(self, user_id):
+        abort_if_users_not_found(user_id)
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).get(user_id)
+        db_sess.delete(user)
+        db_sess.commit()
+        return jsonify({'success': 'OK'})
+
+    def put(self, user_id):
+        args = parsers.user_parser.parse_args()
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).get(user_id)
+        user.id = args['id']
+        user.city_from = args['city_from']
+        user.surname = args['surname']
+        user.name = args['name']
+        user.age = args['age']
+        user.position = args['position']
+        user.speciality = args['speciality']
+        user.address = args['address']
+        user.email = args['email']
+        db_sess.commit()
+        return jsonify({'success': 'OK'})
+
 
 class UsersListResource(Resource):
     def get(self):
