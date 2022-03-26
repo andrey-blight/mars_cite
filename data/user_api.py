@@ -54,7 +54,7 @@ def create_user():
         return jsonify({'error': 'Id already exists'})
     user = User(
         id=request.json['id'],
-        city_from=request['city_from'],
+        city_from=request.json['city_from'],
         surname=request.json['surname'],
         name=request.json['name'],
         age=request.json['age'],
