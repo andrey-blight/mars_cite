@@ -7,39 +7,9 @@ from flask import jsonify, request, render_template, url_for
 from . import db_session
 from .users import User
 
-blueprint = flask.Blueprint(
-    'users_api',
-    __name__,
-    template_folder='templates'
-)
 
 
-@blueprint.route('/api/users')
-def get_users():
-    db_sess = db_session.create_session()
-    users = db_sess.query(User).all()
-    return jsonify(
-        {
-            'users':
-                [item.to_dict(
-                    only=('surname', 'name', 'age', 'position', 'speciality', 'address', 'email', 'city_from')) for item
-                    in
-                    users]
-        }
-    )
 
-
-@blueprint.route('/api/users/<int:user_id>', methods=['GET'])
-def get_one_user(user_id):
-    db_sess = db_session.create_session()
-    user = db_sess.query(User).get(user_id)
-    if not user:
-        return jsonify({'error': 'Not found'})
-    return jsonify(
-        {
-            'user': user.to_dict()
-        }
-    )
 
 
 @blueprint.route('/api/users', methods=['POST'])
