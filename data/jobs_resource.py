@@ -6,6 +6,7 @@ from . import db_session
 from .jobs import Jobs
 from .users_resource import abort_if_users_not_found
 
+
 def abort_if_jobs_not_found(job_id):
     session = db_session.create_session()
     job = session.query(Jobs).get(job_id)
@@ -38,6 +39,7 @@ class JobsResource(Resource):
         db_sess = db_session.create_session()
         if job_id != args['id'] and db_sess.query(Jobs).get(args['id']):
             return jsonify({'error': 'Id already exists'})
+        abort_if_users_not_found(args['team_leader'])
         job = db_sess.query(Jobs).get(job_id)
         job.id = args['id']
         job.team_leader = args['team_leader']
