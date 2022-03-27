@@ -1,3 +1,5 @@
+import pprint
+
 from requests import *
 
 
@@ -102,7 +104,49 @@ def list_jobs_test():
     print(get('http://localhost:8080/api/v2/jobs').json())  # Получение всех работ
 
 
+def job_tests():
+    # получение
+    print(get('http://localhost:8080/api/v2/jobs/1').json())  # Получение первогй работы
+    print(get('http://localhost:8080/api/v2/jobs/3').json())  # Получение третьей работы
+    print(get('http://localhost:8080/api/v2/jobs/300').json())  # Ошибка индекса
+    print(get('http://localhost:8080/api/v2/jobs/dfe').json())  # Ошибка строка в индексе
+
+    # удаление
+    print(delete('http://localhost:8080/api/v2/jobs/100').json())  # ошибка индекса
+    print(delete('http://localhost:8080/api/v2/jobs/fgrie').json())  # несуществующий адресс
+    print(delete('http://localhost:8080/api/v2/jobs/1').json())  # Корректный запрос
+    print(get('http://localhost:8080/api/v2/jobs').json())  # Получение всех работ
+
+    # изменение
+    print(put('http://localhost:8080/api/v2/jobs/1').json())  # Пустой запрос
+    print(put('http://localhost:8080/api/v2/jobs/100').json())  # Несуществующий id
+    print(put('http://localhost:8080/api/v2/jobs/2',
+              json={'id': 1,
+                    'team_leader': 2,
+                    'job': 'First_job',
+                    'work_size': 25,
+                    'collaborators': "1, 2, 3, 4",
+                    'is_finished': False, }).json())  # Ошибка существующего id
+    print(put('http://localhost:8080/api/v2/jobs/1',
+              json={'id': 10,
+                    'team_leader': 105,
+                    'job': 'First_job',
+                    'work_size': 25,
+                    'collaborators': "1, 2, 3, 4",
+                    'is_finished': False, }).json())  # Не существующий team leader
+    print(put('http://localhost:8080/api/v2/jobs/1', json={'job': 'First_job'}).json())  # Некоректный запрос
+    print(put('http://localhost:8080/api/v2/jobs/1',
+              json={'id': 10,
+                    'team_leader': 2,
+                    'job': 'First_job',
+                    'work_size': 25,
+                    'collaborators': "1, 2, 3, 4",
+                    'is_finished': False, }).json())  # Корректный запрос
+    print(get('http://localhost:8080/api/v2/jobs').json())  # Получение всех работ
+
+
 if __name__ == '__main__':
-    # list_users_test()
-    # user_tests()
+    list_users_test()
+    user_tests()
     list_jobs_test()
+    job_tests()
