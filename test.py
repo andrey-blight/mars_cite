@@ -105,4 +105,4 @@ def list_jobs_test():
 if __name__ == '__main__':
     # list_users_test()
     # user_tests()
-    # list_jobs_test()
+    list_jobs_test()
