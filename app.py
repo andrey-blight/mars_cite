@@ -3,7 +3,7 @@ from data.users import User
 from data.jobs import Jobs
 from data.departments import Departments
 from data.forms import *
-from data import users_resource
+from data import users_resource, jobs_resource
 
 from flask import Flask, render_template, redirect, request, make_response, jsonify, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -14,6 +14,8 @@ app = Flask(__name__)
 api = Api(app)
 api.add_resource(users_resource.UsersListResource, '/api/v2/users')
 api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
+api.add_resource(jobs_resource.JobsListResource, '/api/v2/jobs')
+api.add_resource(jobs_resource.JobsResource, '/api/v2/jobs/<int:job_id>')
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)

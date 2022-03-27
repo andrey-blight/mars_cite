@@ -71,6 +71,38 @@ def user_tests():
     print(get('http://localhost:8080/api/v2/users').json())  # Получение всех пользователей
 
 
+def list_jobs_test():
+    # Получение
+    print(get('http://localhost:8080/api/v2/jobs').json())  # Получение всех работ
+
+    # Добавление
+    print(post('http://localhost:8080/api/v2/jobs').json())  # Пустой запрос
+    print(post('http://localhost:8080/api/v2/jobs',
+               json={'id': 1,
+                     'team_leader': 2,
+                     'job': 'First_job',
+                     'work_size': 25,
+                     'collaborators': "1, 2, 3, 4",
+                     'is_finished': False, }).json())  # Ошибка существующего id
+    print(post('http://localhost:8080/api/v2/jobs',
+               json={'id': 10,
+                     'team_leader': 105,
+                     'job': 'First_job',
+                     'work_size': 25,
+                     'collaborators': "1, 2, 3, 4",
+                     'is_finished': False, }).json())  # Не существующий team leader
+    print(post('http://localhost:8080/api/v2/jobs', json={'job': 'First_job'}).json())  # Некоректный запрос
+    print(post('http://localhost:8080/api/v2/jobs',
+               json={'id': 10,
+                     'team_leader': 2,
+                     'job': 'First_job',
+                     'work_size': 25,
+                     'collaborators': "1, 2, 3, 4",
+                     'is_finished': False, }).json())  # Корректный запрос
+    print(get('http://localhost:8080/api/v2/jobs').json())  # Получение всех работ
+
+
 if __name__ == '__main__':
-    list_users_test()
-    user_tests()
+    # list_users_test()
+    # user_tests()
+    # list_jobs_test()
