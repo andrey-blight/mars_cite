@@ -19,6 +19,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 @app.route('/logout')
 @login_required
 def logout():

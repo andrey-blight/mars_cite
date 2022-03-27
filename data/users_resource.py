@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import abort
+from flask import abort, jsonify
 
 from . import parsers
 from . import db_session
@@ -10,7 +10,7 @@ def abort_if_users_not_found(user_id):
     session = db_session.create_session()
     user = session.query(User).get(user_id)
     if not user:
-        abort(404, message=f"User {user_id} not found")
+        abort(404, f"User {user_id} not found")
 
 
 class UsersResource(Resource):

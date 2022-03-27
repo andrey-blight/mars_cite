@@ -1,39 +1,32 @@
 from requests import *
 
 
-def get_test():
-    print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
-    one = get('http://localhost:8080/api/jobs/1').json()  # Одна работа без ошибок
-    if 'error' not in one:
-        print("Одна работа без ошибок")
-    one = get('http://localhost:8080/api/jobs/999').json()  # Одна работа с ошибками
-    if 'error' in one:
-        print("Ошибка : Неверный индекс")
-    one = get('http://localhost:8080/api/jobs/йццц').json()  # Одна работа с ошибками
-    if 'error' in one:
-        print("Ошибка : Текст а не идекс")
+def list_users_test():
+    print(get('http://localhost:8080/api/v2/users').json())  # Получение всех пользователей
 
 
-def create_test():
-    print(post('http://localhost:8080/api/jobs').json())  # пустой запрос
-
-    print(post('http://localhost:8080/api/jobs', json={'job': 'Заголовок'}).json())  # Некоректный запрос
-
-    print(post('http://localhost:8080/api/jobs',
-               json={'id': 1,
-                     'team_leader': 1,
-                     'job': 'Title',
-                     'work_size': 1,
-                     'collaborators': "1,2,3,4,5",
-                     'is_finished': False}).json())  # Ошибка id
-    print(post('http://localhost:8080/api/jobs',
-               json={'id': 5,
-                     'team_leader': 1,
-                     'job': 'Title',
-                     'work_size': 1,
-                     'collaborators': "1,2,3,4,5",
-                     'is_finished': False}).json())  # Корректный запрос
-    print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
+def user_tests():
+    print(get('http://localhost:8080/api/v2/users/1').json())  # Получение первого пользователя
+    print(get('http://localhost:8080/api/v2/users/3').json())  # Получение третьего пользователя
+    print(get('http://localhost:8080/api/v2/users/300').json())  # Ошибка индекса
+    print(get('http://localhost:8080/api/v2/users/dfe').json())  # Ошибка строка в индексе
+    # print(post('http://localhost:8080/api/jobs', json={'job': 'Заголовок'}).json())  # Некоректный запрос
+    #
+    # print(post('http://localhost:8080/api/jobs',
+    #            json={'id': 1,
+    #                  'team_leader': 1,
+    #                  'job': 'Title',
+    #                  'work_size': 1,
+    #                  'collaborators': "1,2,3,4,5",
+    #                  'is_finished': False}).json())  # Ошибка id
+    # print(post('http://localhost:8080/api/jobs',
+    #            json={'id': 5,
+    #                  'team_leader': 1,
+    #                  'job': 'Title',
+    #                  'work_size': 1,
+    #                  'collaborators': "1,2,3,4,5",
+    #                  'is_finished': False}).json())  # Корректный запрос
+    # print(get('http://localhost:8080/api/jobs').json())  # Получение всех работ
 
 
 def delete_test():
@@ -57,4 +50,4 @@ def change_test():
 
 
 if __name__ == '__main__':
-    change_test()
+    user_tests()
