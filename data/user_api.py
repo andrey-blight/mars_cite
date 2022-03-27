@@ -59,7 +59,6 @@ def create_user():
         name=request.json['name'],
         age=request.json['age'],
         position=request.json['position'],
-        is_finished=request.json['is_finished'],
         speciality=request.json['speciality'],
         address=request.json['address'],
         email=request.json['email']
