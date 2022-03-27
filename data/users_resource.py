@@ -33,8 +33,11 @@ class UsersResource(Resource):
         return jsonify({'success': 'OK'})
 
     def put(self, user_id):
+        abort_if_users_not_found(user_id)
         args = parsers.user_parser.parse_args()
         db_sess = db_session.create_session()
+        if user_id != args['id'] and db_sess.query(User).get(args['id']):
+            return jsonify({'error': 'Id already exists'})
         user = db_sess.query(User).get(user_id)
         user.id = args['id']
         user.city_from = args['city_from']
@@ -79,5 +82,5 @@ class UsersListResource(Resource):
             email=args['email']
         )
         db_sess.add(user)
-        # db_sess.commit()
+        db_sess.commit()
         return jsonify({'success': 'OK'})
