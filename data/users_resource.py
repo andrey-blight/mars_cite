@@ -24,27 +24,6 @@ class UsersResource(Resource):
             }
         )
 
-    def post(self):
-        args = parsers.user_parser.parse_args()
-        db_sess = db_session.create_session()
-        if db_sess.query(User).get(args['id']):
-            return jsonify({'error': 'Id already exists'})
-        user = User(
-            id=args['id'],
-            city_from=args['city_from'],
-            surname=args['surname'],
-            name=args['name'],
-            age=args['age'],
-            position=args['position'],
-            is_finished=args['is_finished'],
-            speciality=args['speciality'],
-            address=args['address'],
-            email=args['email']
-        )
-        db_sess.add(user)
-        db_sess.commit()
-        return jsonify({'success': 'OK'})
-
     def delete(self, user_id):
         abort_if_users_not_found(user_id)
         db_sess = db_session.create_session()
@@ -82,3 +61,23 @@ class UsersListResource(Resource):
                      users]
             }
         )
+
+    def post(self):
+        args = parsers.user_parser.parse_args()
+        db_sess = db_session.create_session()
+        if db_sess.query(User).get(args['id']):
+            return jsonify({'error': 'Id already exists'})
+        user = User(
+            id=args['id'],
+            city_from=args['city_from'],
+            surname=args['surname'],
+            name=args['name'],
+            age=args['age'],
+            position=args['position'],
+            speciality=args['speciality'],
+            address=args['address'],
+            email=args['email']
+        )
+        db_sess.add(user)
+        # db_sess.commit()
+        return jsonify({'success': 'OK'})
